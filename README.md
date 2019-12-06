@@ -21,7 +21,7 @@ Here we can see some of the data structures within the User-IP DB. This is used 
 
 ![alt text](https://github.com/BananaHammocksCph/Event_Organiser/blob/master/img/User-IP-DB.png "Class Diagram of User-IP DB")
 
-#### [Unity Mobile App](./tree/master/Rating_Cl/)
+#### [Unity Mobile App](./master/Rating_Cl/)
 
 A mobile app written in Unity. This is where users rate an event they have attended from 1-5. The IP address is also recorded here as well and the users coordinates, these are passed through the VPN Validator Service to make a subliminary check that users aren't spoofing their location. 
 
