@@ -62,6 +62,8 @@ An email and ordering micro-service used to send orders or emails to those requi
 
 ### API
 
+#### Rest Server
+
 ##### User 
 
 | Parameter                    | Description                       |
@@ -83,6 +85,13 @@ An email and ordering micro-service used to send orders or emails to those requi
 | `/events/{event_id}/ratings`      | Returns a list of ratings associated with the specified event`|
 | `/events/{event_id}/ratings/{id}`| Returns a rating associated with the specified event and id` |
 
+#### VPN Validator Service
+
+##### Connections 
+
+| Parameter                    | Description                       |
+|:----------------------------|:----------------------------------|
+|POST `/connections/`      | Returns whether the user is valid or not`|
 
 #### Status Codes
 
