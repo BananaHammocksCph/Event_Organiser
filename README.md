@@ -3,14 +3,14 @@ Repository containing the source code and micro-services related to the Event Or
 
 ### Table of contents
 1. [Prerequisites](#Prerequisites)
-2. [Running Application](#Running the application)
-3. [Architecture](#Architecture / Design)
+2. [Running Application](#Running_the_application)
+3. [Architecture](#Architecture)
 4. [API](#API)
-5. [Message Queue](#Message Queue)
+5. [Message Queue](#Message_Queue)
 
 ### Prerequisites
-### Running the application
-### Architecture / Design
+### Running_the_application
+### Architecture
 
 ![alt text](https://github.com/BananaHammocksCph/Event_Organiser/blob/master/img/Event_Organiser_Architecture.png "Architectural Overview of the Event_Organiser Application")
 
@@ -94,7 +94,7 @@ An email and ordering micro-service used to send orders or emails to those requi
 | 404 | `NOT FOUND` |
 | 500 | `INTERNAL SERVER ERROR` |
 
-#### Message Queue
+#### Message_Queue
 
 We will be using a messaging queue to communicate with our microservice, which handles the applications orders and emailing. This is because our mails are only be running and handled during business-hours in consideration of the recipients.
 
