@@ -1,6 +1,13 @@
 # Event_Organiser
 Repository containing the source code and micro-services related to the Event Organiser App developed for SI class
 
+### Table of contents
+1. [Prerequisites](#Prerequisites)
+2. [Running Application](#Running the application)
+3. [Architecture](#Architecture / Design)
+4. [API](#API)
+5. [Message Queue](#Message Queue)
+
 ### Prerequisites
 ### Running the application
 ### Architecture / Design
@@ -21,17 +28,37 @@ Here we can see some of the data structures within the User-IP DB. This is used 
 
 ![alt text](https://github.com/BananaHammocksCph/Event_Organiser/blob/master/img/User-IP-DB.png "Class Diagram of User-IP DB")
 
-#### [Unity Mobile App](./Rating_Cl/)
+#### [Ratings Client](./Rating_Cl/)
 
-A mobile app written in Unity. This is where users rate an event they have attended from 1-5. The IP address is also recorded here as well and the users coordinates, these are passed through the VPN Validator Service to make a subliminary check that users aren't spoofing their location. 
+A mobile app written in Unity. This is where users rate an event they have attended from 1-5. The IP address is also recorded here as well along with the users coordinates, these are passed through the VPN Validator Service to make a subliminary check that users aren't spoofing their location. 
 
-#### Web App
-#### REST Server
-#### VPN Validator Service
+#### [Web App](./Event_Cl/)
+
+A web application where users can create and make specifications to their event. 
+
+#### [REST Server](./Event_Engine/)
+
+REST Server for handling events and calling micro services
+
+#### [VPN Validator Service](./VPN_Validator_Service/)
+
+Maintains a mongo document which is used to analyse the legitimacy of the clients making calls to the server. Takes the coordinates and ip address from the client and makes use of the IP-GEODATA Webservice to get the geodata from the IP Address, it then compares to the users coordinates to ensure a small measure of legitimacy. 
+
 #### IP-GEODATA WEBSERVICE
-#### Analysis / Prediction Service
-#### Data Processor Service
-#### Email / Order Service
+
+A remotely maintained [web-service](https://rapidapi.com/geoplugin/api/ip-geolocation1) used by the VPN Validator Service to obtain the geolocation of a specified IP Address. 
+
+#### [Analysis / Prediction Service](./Event_Analyser_Service/)
+
+A micro-service which takes the event, user and rating data in a CSV document and makes analysis / predictions based on the data. 
+
+#### [Data Processor Service](./Data_Processor_Service/)
+
+A micro-service used to convert database data into a csv which can subsequently be analysed by the Event Analyser Service.
+
+#### [Email / Order Service](./OrderMail_Service/)
+
+An email and ordering micro-service used to send orders or emails to those required. This micro-service gets its information from a messaging queue system and only operates during work-hours. 
 
 ### API
 
