@@ -56,7 +56,7 @@ A micro-service which takes the event, user and rating data in a CSV document an
 
 A micro-service used to convert database data into a csv which can subsequently be analysed by the Event Analyser Service.
 
-#### [Email / Order Service](./OrderMail_Service/)
+#### [Email Service](./OrderMail_Service/)
 
 An email and ordering micro-service used to send orders or emails to those required. This micro-service gets its information from a messaging queue system and only operates during work-hours. 
 
