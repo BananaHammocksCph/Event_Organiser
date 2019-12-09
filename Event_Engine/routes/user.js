@@ -9,9 +9,9 @@ router.get("/", function(req, res) {
 
   User.find({}, function(err, users) {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
-    res.json({
+    return res.json({
       status: status,
       data: users
     });
@@ -26,10 +26,10 @@ router.post("/", function(req, res) {
   let status = 200;
   user.save(function(err) {
     if(err) {
-        status = 400;
+        return res.send(err);
       };
     });
-    res.json({
+    return res.json({
       status: status,
     });
 });
@@ -38,9 +38,9 @@ router.get("/:id", function(req, res) {
   let status = 200;
     User.findById(req.params.ID, function (err, user) {
         if (err) {
-          res.send(err);
+          return res.send(err);
         }
-        res.json({
+        return res.json({
           status: status,
           data: user
         });
@@ -59,9 +59,9 @@ router.delete("/:id", function(req, res) {
    },
    function(err, user) {
      if (err) {
-       status = 400;
+       return res.send(err);
      }
-     res.json({
+      return res.json({
        status: status,
      });
    }

@@ -8,7 +8,7 @@ var ratingSchema = new mongoose.Schema({
 });
 
 var userSchema = new mongoose.Schema({
-  name: String,
+  Name: String,
   Events: [{ type: Schema.Types.ObjectId, ref: "event" }],
   Event_Owner: [{ type: Schema.Types.ObjectId, ref: "event" }],
   Email: String
