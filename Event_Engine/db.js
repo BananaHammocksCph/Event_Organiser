@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.createConnection("mongodb://127.0.0.1:27017/event-organiser");
 const Schema = mongoose.Schema;
 
 var ratingSchema = new mongoose.Schema({
@@ -11,7 +10,8 @@ var userSchema = new mongoose.Schema({
   Name: String,
   Events: [{ type: Schema.Types.ObjectId, ref: "event" }],
   Event_Owner: [{ type: Schema.Types.ObjectId, ref: "event" }],
-  Email: String
+  Email: { type: String, unique: true, required: true }, 
+  Password: String
 });
 
 var eventSchema = new mongoose.Schema({

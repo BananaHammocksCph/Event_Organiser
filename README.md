@@ -77,6 +77,10 @@ An email and ordering micro-service used to send orders or emails to those requi
 |:----------------------------|:----------------------------------|
 | `/events`      | Returns a list of events`|
 | `/events/{id}`| Returns an event associated with the specified id` |
+|GET `/events/{id}/users`| Returns uesrs associated with an event` |
+|POST `/events/{id}/users`| Posts a new user to an Event` |
+|GET `/events/{id}/users/{user_id}`| Returns a specified uesr associated with an event` |
+|DELETE `/events/{id}/users/{user_id}`| Deletes a specified user associated with an event` |
 
 ##### Rating 
 
@@ -84,6 +88,13 @@ An email and ordering micro-service used to send orders or emails to those requi
 |:----------------------------|:----------------------------------|
 | `/events/{event_id}/ratings`      | Returns a list of ratings associated with the specified event`|
 | `/events/{event_id}/ratings/{id}`| Returns a rating associated with the specified event and id` |
+
+#### Authentication
+
+| Parameter                    | Description                       |
+|:----------------------------|:----------------------------------|
+|POST `/login`| Logs a user in, returns a user object` |
+|POST `/logout`| Logs a user out of a session` |
 
 #### VPN Validator Service
 

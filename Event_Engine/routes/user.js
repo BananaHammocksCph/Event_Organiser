@@ -22,7 +22,8 @@ router.post("/", function(req, res) {
   let user = new User();
   user.Name = req.body.Name;
   user.Email = req.body.Email;
-
+  user.Password = req.body.Password;
+  
   let status = 200;
   user.save(function(err) {
     if(err) {
