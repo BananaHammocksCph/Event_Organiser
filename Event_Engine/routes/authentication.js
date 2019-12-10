@@ -15,11 +15,11 @@ router.post("/login", function (req, res) {
   User.findOne({ Email: Email }, function (err, user) {
     if (err) {
       return res.send(err);
+    } else if (!user) {
+      let err = new Error("User not found.");
+      err.status = 401;
+      return res.send(err);
     }
-    console.log("COMPARING NOW ");
-    console.log(user);
-    console.log("DB DOCUMENT: " + user.Password)
-    console.log("FROM REST CALL : "+ Password)
     if (user.Password == Password){
     return res.json({
       status: status,
