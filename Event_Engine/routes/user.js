@@ -23,16 +23,17 @@ router.post("/", function(req, res) {
   user.Name = req.body.Name;
   user.Email = req.body.Email;
   user.Password = req.body.Password;
-  
+
   let status = 200;
   user.save(function(err) {
     if(err) {
         return res.send(err);
       };
+       return res.json({
+         status: status
+       });
     });
-    return res.json({
-      status: status,
-    });
+   
 });
 
 router.get("/:id", function(req, res) {

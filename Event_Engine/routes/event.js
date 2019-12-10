@@ -33,14 +33,13 @@ router.get("/:id", function (req, res) {
 });
 
 router.post("/", function(req, res) {
-  let d = Date.parse(req.body.Date);
   let event = new Event();
   event.Description = req.body.Description;
   event.Name = req.body.Name;
   event.Type = req.body.Type;
   event.Catering = req.body.Catering;
   event.Catering_Desc = req.body.Catering_Desc;
-  event.Date =  d;
+  event.Date = Date.parse(req.body.Date);
   event.Location = req.body.Location;
 
 // Calls automated processes related to received Event object
@@ -49,24 +48,25 @@ router.post("/", function(req, res) {
   let status = 200;
   event.save(function(err) {
     if (err) {
-      return res.send(err);
+     return res.json({ status: 500, error: err });
     }
+      return res.json({
+        status: status
+      });
   });
-  return res.json({
-    status: status
-  });
+
 });
 
 router.put("/:id", function(req, res) {
   let status = 200;
-  let d = Date.parse(req.body.Date);
+
   let event = new Event();
   event.Description = req.body.Description;
   event.Name = req.body.Name;
   event.Type = req.body.Type;
   event.Catering = req.body.Catering;
   event.Catering_Desc = req.body.Catering_Desc;
-  event.Date = d;
+  event.Date = Date.parse(req.body.Date);
   event.Location = req.body.Location;
 
   Event.findByIdAndUpdate(
