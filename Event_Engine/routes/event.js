@@ -35,6 +35,7 @@ router.get("/:id", function (req, res) {
 router.post("/", function(req, res) {
   let event = new Event();
   event.Description = req.body.Description;
+  event.Name = req.body.Name;
   event.Type = req.body.Type;
   event.Catering = req.body.Catering;
   event.Catering_Desc = req.body.Catering_Desc;
@@ -60,6 +61,7 @@ router.put("/:id", function(req, res) {
 
   let event = new Event();
   event.Description = req.body.Description;
+  event.Name = req.body.Name;
   event.Type = req.body.Type;
   event.Catering = req.body.Catering;
   event.Catering_Desc = req.body.Catering_Desc;

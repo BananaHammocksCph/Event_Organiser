@@ -15,6 +15,7 @@ var userSchema = new mongoose.Schema({
 });
 
 var eventSchema = new mongoose.Schema({
+  Name: String,
   Description: String,
   Users: [{ type: Schema.Types.ObjectId, ref: "user" }],
   Type: {
