@@ -4,8 +4,8 @@ const mq_cnn = amqp.createConnection({
 });
 
 mq_cnn.on('ready', function () {
-    console.log('Listening to user_queue');
-    mq_cnn.queue('user_queue', function (q) {
+    console.log('Listening to mail_queue');
+    mq_cnn.queue('mail_queue', function (q) {
         q.subscribe(function (message, headers, deliveryInfo, m) {
             util.log(util.format(deliveryInfo.routingKey, message));
             util.log("Message: " + JSON.stringify(message));
@@ -34,8 +34,6 @@ function handleRequest(message) {
         subject: 'Subject',
         text: 'Text'
     };
-
-    console.log("Mail sent");
       
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
