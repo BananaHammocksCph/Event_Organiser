@@ -14,9 +14,6 @@ const option = {
   useUnifiedTopology: true
 };
 
-
-console.log("BEFORE CONNECT");
-
 mongoose.connect("mongodb://127.0.0.1:27017/event-organiser", option).then(
   function() {
     console.log("Connected to database");
@@ -25,9 +22,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/event-organiser", option).then(
     console.log("Not connected to database " + err);
   }
 );
-
-console.log("AFTER CONNECT");
-
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(cors());

@@ -85,6 +85,13 @@ An email and ordering micro-service used to send orders or emails to those requi
 | `/events/{event_id}/ratings`      | Returns a list of ratings associated with the specified event`|
 | `/events/{event_id}/ratings/{id}`| Returns a rating associated with the specified event and id` |
 
+#### Authentication
+
+| Parameter                    | Description                       |
+|:----------------------------|:----------------------------------|
+|POST `/login`| Logs a user in, returns a user object` |
+|POST `/logout`| Logs a user out of a session` |
+
 #### VPN Validator Service
 
 ##### Connections 

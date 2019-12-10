@@ -10,7 +10,8 @@ var userSchema = new mongoose.Schema({
   Name: String,
   Events: [{ type: Schema.Types.ObjectId, ref: "event" }],
   Event_Owner: [{ type: Schema.Types.ObjectId, ref: "event" }],
-  Email: String
+  Email: { type: String, unique: true, required: true }, 
+  Password: String
 });
 
 var eventSchema = new mongoose.Schema({

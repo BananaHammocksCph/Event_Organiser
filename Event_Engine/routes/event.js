@@ -22,26 +22,25 @@ router.get("/", function(req, res) {
 router.post("/", function(req, res) {
   let event = new Event();
   event.Description = req.body.Description;
-                                      event.Type = req.body.Type;
-                                      event.Catering = req.body.Catering;
-                                      event.Catering_Desc =
-                                        req.body.Catering_Desc;
-                                      event.Date = req.body.Date;
-                                      event.Location = req.body.Location;
+  event.Type = req.body.Type;
+  event.Catering = req.body.Catering;
+  event.Catering_Desc = req.body.Catering_Desc;
+  event.Date = req.body.Date;
+  event.Location = req.body.Location;
 
-                                      // Calls automated processes related to received Event object
-                                      // EventHandler.handleEvent(event);
+// Calls automated processes related to received Event object
+// EventHandler.handleEvent(event);
 
-                                      let status = 200;
-                                      event.save(function(err) {
-                                        if (err) {
-                                          return res.send(err);
-                                        }
-                                      });
-                                      return res.json({
-                                        status: status
-                                      });
-                                    });
+  let status = 200;
+  event.save(function(err) {
+    if (err) {
+      return res.send(err);
+    }
+  });
+  return res.json({
+    status: status
+  });
+});
 
 router.get("/:id", function(req, res) {
   Event.findById(req.params.ID, function (err, event) {
