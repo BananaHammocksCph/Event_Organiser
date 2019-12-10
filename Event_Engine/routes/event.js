@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router(); // eslint-disable-line new-cap
-const EventHandler = require('../helpers/EventHandler');
+// const EventHandler = require('../helpers/EventHandler');
 
 let db = require("../db");
 const Event = db.Mongoose.model("event", db.EventSchema, "event");
@@ -20,8 +20,8 @@ router.get("/", function(req, res) {
 });
 
 router.post("/", function(req, res) {
-                                      let event = new Event();
-                                      event.Description = req.body.Description;
+  let event = new Event();
+  event.Description = req.body.Description;
                                       event.Type = req.body.Type;
                                       event.Catering = req.body.Catering;
                                       event.Catering_Desc =
@@ -30,7 +30,7 @@ router.post("/", function(req, res) {
                                       event.Location = req.body.Location;
 
                                       // Calls automated processes related to received Event object
-                                      EventHandler.handleEvent(event);
+                                      // EventHandler.handleEvent(event);
 
                                       let status = 200;
                                       event.save(function(err) {
@@ -56,17 +56,27 @@ router.get("/:id", function(req, res) {
 });
 
 router.put("/:id", function(req, res) {
-    let status = 200;
+  let status = 200;
 
-     let event = new Event();
-     event.ID = req.body.ID
-     event.Description = req.body.Description;
-     event.Type = req.body.Type;
-     event.Catering = req.body.Catering;
-     event.Catering_Desc = req.body.Catering_Desc;
-     event.Date = req.body.Date;
-     event.Location = req.body.Location;
+  let event = new Event();
+  event.Description = req.body.Description;
+  event.Type = req.body.Type;
+  event.Catering = req.body.Catering;
+  event.Catering_Desc = req.body.Catering_Desc;
+  event.Date = req.body.Date;
+  event.Location = req.body.Location;
 
+  Event.findByIdAndUpdate(
+    req.params.id,
+    event,
+    { new: true },
+    (err, retEvent) => {
+      if (err) return res.status(500).send(err);
+      return res.json({
+        data: retEvent,
+        status: status
+      });
+    });
 });
 
 router.delete("/:id", function(req, res) {

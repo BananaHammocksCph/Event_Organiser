@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.createConnection("mongodb://127.0.0.1:27017/event-organiser");
 const Schema = mongoose.Schema;
 
 var ratingSchema = new mongoose.Schema({
