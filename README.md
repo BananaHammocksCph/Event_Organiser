@@ -77,6 +77,10 @@ An email and ordering micro-service used to send orders or emails to those requi
 |:----------------------------|:----------------------------------|
 | `/events`      | Returns a list of events`|
 | `/events/{id}`| Returns an event associated with the specified id` |
+|GET `/events/{id}/users`| Returns uesrs associated with an event` |
+|POST `/events/{id}/users`| Posts a new user to an Event` |
+|GET `/events/{id}/users/{user_id}`| Returns a specified uesr associated with an event` |
+|DELETE `/events/{id}/users/{user_id}`| Deletes a specified user associated with an event` |
 
 ##### Rating 
 
