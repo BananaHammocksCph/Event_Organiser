@@ -25,7 +25,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/user-ip", option).then(
 app.use(bodyParser.json({ type: "application/json" }));
 app.use(cors());
 
-const port = process.env.port || 3001;
+const port = process.env.port || 3002;
 
 app.get("/", function(req, res) {
   res.json("Hello world!\n");
