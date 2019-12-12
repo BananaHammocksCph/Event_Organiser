@@ -7,3 +7,5 @@ function userConnectionDTO(user, ip, coords) {
   date: Date.now()
   };
 }
+
+exports.userConnectionDTO = userConnectionDTO;
