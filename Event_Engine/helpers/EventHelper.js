@@ -9,7 +9,7 @@ function EventEmailDTO(event) {
 }
 
 const getRecipientEmail = (event) => {
-  return "cateringservice@catering.com"
+  return "seanaltoft@gmail.com"
 }
 
 exports.EventEmailDTO = EventEmailDTO;
