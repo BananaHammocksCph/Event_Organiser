@@ -40,6 +40,8 @@ bramqp.initialize(socket, "rabbitmq/full/amqp0-9-1.stripped.extended", function(
             1,
             "basic",
             {
+              "content-encoding": "utf-8",
+              "content-type": "application/json",
               delivery_mode: 2
             },
             message,

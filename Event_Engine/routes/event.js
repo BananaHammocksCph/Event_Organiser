@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router(); // eslint-disable-line new-cap
-// const EventHandler = require('../helpers/EventHandler');
+const EventHandler = require('../helpers/EventHandler');
 
 let db = require("../db");
 const Event = db.Mongoose.model("event", db.EventSchema, "event");
@@ -43,7 +43,7 @@ router.post("/", function(req, res) {
   event.Location = req.body.Location;
 
 // Calls automated processes related to received Event object
-// EventHandler.handleEvent(event);
+EventHandler.handleEvent(event);
 
   let status = 200;
   event.save(function(err) {
