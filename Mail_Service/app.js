@@ -4,8 +4,9 @@ const mq_cnn = amqp.createConnection({
 });
 
 mq_cnn.on('ready', function () {
-    console.log('Listening to mail_queue');
+    console.log("Connected");
     mq_cnn.queue('mail_queue', function (q) {
+        console.log('Listening to mail_queue');
         q.subscribe(function (message, headers, deliveryInfo, m) {
             util.log(util.format(deliveryInfo.routingKey, message));
             util.log("Message: " + JSON.stringify(message));
@@ -17,6 +18,8 @@ mq_cnn.on('ready', function () {
 
 function handleRequest(message) {
     var nodemailer = require('nodemailer');
+
+    console.log(message);
 
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -30,7 +33,7 @@ function handleRequest(message) {
     
     var mailOptions = {
         from: 'bananahammocksinfo@gmail.com',
-        to: message.UserMail,
+        to: message.Recipient,
         subject: 'Subject',
         text: 'Text'
     };

@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router(); // eslint-disable-line new-cap
-const EventHandler = require('../helpers/EventHandler');
+const EventHelper = require('../helpers/EventHelper');
+const amqp = require('amqp');
+const connection = amqp.createConnection({
+	host : '127.0.0.1'
+});
 
 let db = require("../db");
 const Event = db.Mongoose.model("event", db.EventSchema, "event");
@@ -43,7 +47,10 @@ router.post("/", function(req, res) {
   event.Location = req.body.Location;
 
 // Calls automated processes related to received Event object
-EventHandler.handleEvent(event);
+connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
+  contentType: "application/json",
+  contentEncoding: "utf-8"
+});
 
   let status = 200;
   event.save(function(err) {
