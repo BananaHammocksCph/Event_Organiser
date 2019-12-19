@@ -120,5 +120,5 @@ We will be using a messaging queue to communicate with our microservice, which h
 
 | Queue | Description |
 | :--- | :--- |
-| `order_queue` | `This is the queue for handling orders, they are high priority` |
-| `mail_queue` | `This is the queue for handling mails, they are for the most part not as high priority as orders` |
+| `data_queue` | `This is the queue for the analysis service, which transmits csv data` |
+| `mail_queue` | `This is the queue for handling mails, which transmits json data` |
