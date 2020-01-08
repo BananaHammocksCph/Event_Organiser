@@ -1,0 +1,32 @@
+version: "2"
+services:
+  db:
+    # build: ./Mongo
+    image: mongo:latest
+    restart: on-failure
+    # environment: 
+    #   - MONGO_INITDB_DATABASE=admin
+    #   - MONGO_INITDB_ROOT_USERNAME=admin-user
+    #   - MONGO_INITDB_ROOT_PASSWORD=admin-password
+    ports:
+      - '27017-27019:27017-27019'
+    # volumes:
+    #   - ./Mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  api: 
+    build: ./Event_Engine
+    ports: 
+      - "3001:3001"
+    depends_on:
+      - db
+  
+  rabbitmq:
+    image: rabbitmq:3.7-management-alpine
+    ports: 
+        - "5672:5672"
+        - "15672:15672"
+  
+  mailservice:
+    build: ./Mail_Service
+    depends_on:
+      - rabbitmq
