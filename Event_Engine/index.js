@@ -14,7 +14,7 @@ const option = {
   useUnifiedTopology: true
 };
 
-mongoose.connect("mongodb://127.0.0.1:27017/event-organiser", option).then(
+mongoose.connect("mongodb://db:27017/event-organiser", option).then(
   function() {
     console.log("Connected to database");
   },
