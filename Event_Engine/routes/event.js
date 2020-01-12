@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router(); // eslint-disable-line new-cap
 const EventHelper = require('../helpers/EventHelper');
 const amqp = require('amqp');
+const async = require('async');
+
 const connection = amqp.createConnection({
 	host : '127.0.0.1'
 });
@@ -9,8 +11,90 @@ const connection = amqp.createConnection({
 let db = require("../db");
 const Event = db.Mongoose.model("event", db.EventSchema, "event");
 const User = db.Mongoose.model("user", db.UserSchema, "user");
+const Rating = db.Mongoose.model("rating", db.RatingSchema, "rating");
 
-router.get("/", function(req, res) {
+router.get("/:id/ratings", function(req, res, next) {
+	Event.findById(req.params.id)
+    .populate('rating')
+    .exec(function(err, event) {
+      if (err) throw err;
+      return res.json({
+        status: 200,
+        data: event.Ratings
+      });
+    });
+    });
+
+router.post("/:id/ratings", function(req, res, next) {
+	let rate = new Rating();
+	rate.Score = req.body.Score;
+	Event.findById(req.params.id, function (err, event) {
+	event.Ratings.push(rate);
+	event.save(function(err) {
+   if (err) return res.json({
+   status: 400,
+ });
+ return res.json({
+    status: 200,
+  });
+	});
+
+	})
+});
+
+router.get("/:eventId/ratings/:id", function(req, res, next) {
+  Event.findById(req.params.eventId, function (err, event) {
+		if (err) {
+			return res.json({
+				status: 400
+			})
+		}
+		return res.json({
+			status: 200,
+			data: event.Ratings.id(req.params.id)
+		})
+	})
+});
+
+router.put("/:eventId/ratings/:id", function(req, res, next) {
+  let initRate = new Rating();
+  initRate.Score = req.body.Score;
+  
+  Event.findById(req.params.eventId)
+  .then((event) => {
+    const rate = event.Ratings.id(req.params.id);
+    rate.set(initRate); 
+    return event.save(); // saves document with subdocuments and triggers validation
+  })
+  .then((event) => {
+    res.send({ 
+      status: 200,
+      data: event 
+    });
+  })
+  .catch(e =>  res.send({ 
+    status: 400
+  }));
+});
+
+router.delete("/:eventId/ratings/:id", function(req, res, next) {
+	Event.findById(req.params.eventId, function (err, event) {
+		event.Ratings.id(req.params.id).remove();
+		event.save(function(err) {
+    if (err) return res.json({
+    status: 400,
+  });
+ return res.json({
+    status: 200,
+  });
+	});
+
+	})
+  
+});
+
+
+router.get("/", function(req, res, next) {
   let status = 200;
 
   Event.find({}, function(err, users) {
@@ -24,7 +108,7 @@ router.get("/", function(req, res) {
   });
 });
 
-router.get("/:id", function (req, res) {
+router.get("/:id", function (req, res, next) {
   Event.findById(req.params.id, function (err, event) {
     let status = 200;
     if (err)
@@ -36,7 +120,7 @@ router.get("/:id", function (req, res) {
   });
 });
 
-router.post("/", function(req, res) {
+router.post("/", function(req, res, next) {
   let event = new Event();
   event.Description = req.body.Description;
   event.Name = req.body.Name;
@@ -46,11 +130,19 @@ router.post("/", function(req, res) {
   event.Date = Date.parse(req.body.Date);
   event.Location = req.body.Location;
 
+  let parsedRatings = req.body.Ratings.reduce((total, inc) => {
+		let rate = new Rating();
+		rate.Score = inc.Score;
+    return total.concat(rate);
+	}, [])
+	
+	event.Ratings = parsedRatings;
+
 // Calls automated processes related to received Event object
-connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
-  contentType: "application/json",
-  contentEncoding: "utf-8"
-});
+// connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
+//   contentType: "application/json",
+//   contentEncoding: "utf-8"
+// });
 
   let status = 200;
   event.save(function(err) {
@@ -64,7 +156,7 @@ connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
 
 });
 
-router.put("/:id", function(req, res) {
+router.put("/:id", function(req, res, next) {
   let status = 200;
 
   let event = new Event();
@@ -89,7 +181,7 @@ router.put("/:id", function(req, res) {
     });
 });
 
-router.delete("/:id", function(req, res) {
+router.delete("/:id", function(req, res, next) {
   let status = 200;
   Event.remove(
     {
@@ -107,7 +199,7 @@ router.delete("/:id", function(req, res) {
 });
 
 // @RETURNS all users associated with an event
-router.get("/:id/users", function (req, res) {
+router.get("/:id/users", function (req, res, next) {
   let status = 200;
   Event.findById(req.params.id, function (err, event) {
     if (err)
@@ -120,7 +212,7 @@ router.get("/:id/users", function (req, res) {
 });
 
 // Gets a specific user object from within event.Users
-router.get("/:id/users/:user_id", function (req, res) {
+router.get("/:id/users/:user_id", function (req, res, next) {
   let status = 200;
   Event.find({ _id: req.params.id, 'users._id': req.params.user_id }, function (err, user) {
     if (err)
@@ -133,7 +225,7 @@ router.get("/:id/users/:user_id", function (req, res) {
 });
 
 // Adds a user to an event
-router.post("/:id/users/", function (req, res) {
+router.post("/:id/users/", function (req, res, next) {
   let status = 200;
   Event.findOne({ _id: req.params.id }).catch(function (err) {
     return res.send(err);
@@ -151,7 +243,7 @@ router.post("/:id/users/", function (req, res) {
 });
 
 // Adds a user to an event
-router.delete("/:id/users/:user_id", function (req, res) {
+router.delete("/:id/users/:user_id", function (req, res, next) {
   let status = 200;
   Event.findOne({ _id: req.params.id }).catch(function (err) {
     return res.send(err);
@@ -164,6 +256,7 @@ router.delete("/:id/users/:user_id", function (req, res) {
       });
     });
   });
+
 
 
 module.exports = router;

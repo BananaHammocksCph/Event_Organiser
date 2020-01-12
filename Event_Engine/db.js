@@ -27,7 +27,7 @@ var eventSchema = new mongoose.Schema({
   Catering_Desc: String,
   Date: Date,
   Location: String,
-  Ratings: [{ type: Schema.Types.ObjectId, ref: "rating" }],
+  Ratings: [ ratingSchema ],
   Created: { type: Date }
 });
 
