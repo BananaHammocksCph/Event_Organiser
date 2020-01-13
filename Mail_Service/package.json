@@ -2,6 +2,7 @@
   "devDependencies": {
     "amqp": "^0.2.7",
     "nodemailer": "^6.4.1",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "node-cron": "v2.0"
   }
 }
