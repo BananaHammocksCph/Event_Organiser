@@ -5,7 +5,7 @@ const amqp = require('amqp');
 const async = require('async');
 const UserHelper = require('../helpers/UserHelper');
 
-const connection = amqp.createConnection({
+var connection = amqp.createConnection({
 	host : '127.0.0.1'
 });
 
@@ -158,7 +158,8 @@ router.post("/", function(req, res, next) {
   event.Catering_Desc = req.body.Catering_Desc;
   event.Date = Date.parse(req.body.Date);
   event.Location = req.body.Location;
-
+	event.Ratings = [];
+	
   if (req.body.Ratings) {
   let parsedRatings = req.body.Ratings.reduce((total, inc) => {
 		let rate = new Rating();
@@ -169,10 +170,12 @@ router.post("/", function(req, res, next) {
 }
 
 // Calls automated processes related to received Event object
+if (event.Catering){
 connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
   contentType: "application/json",
   contentEncoding: "utf-8"
 });
+}
 
   let status = 200;
   event.save(function(err) {
