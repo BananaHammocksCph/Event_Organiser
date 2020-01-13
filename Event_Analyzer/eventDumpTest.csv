@@ -1,0 +1,7 @@
+_id,Users,Type
+ObjectId(5df172e2cd46ec15c3fbe987),"Farki, Mr.Farok, ammmm",PARTY
+ObjectId(5df20b9e1d448316e0c6999d),"Teszt, asss, fmee fma ",MEETING
+ObjectId(5df20f0e1d448316e0c699a4),"fassss, feeww, Farki, Farki, Farki",PARTY
+ObjectId(5df20fc11d448316e0c699a5),[],LECTURE
+ObjectId(5df230123044cc4f089cfa06),"Farki, Mr.Farok, ammmm",LECTURE
+ObjectId(5df242bd3044cc4f089cfa09),"Teszt, asss, fmee fma ",LECTURE

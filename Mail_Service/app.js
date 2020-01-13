@@ -1,7 +1,8 @@
 const amqp = require('amqp'), util = require('util');
 const mq_cnn = amqp.createConnection({
-    host: '127.0.0.1'
+    host: 'rabbitmq'
 });
+const cron = require('node-cron');
 
 mq_cnn.on('ready', function () {
     console.log("Connected");
@@ -34,8 +35,8 @@ function handleRequest(message) {
     var mailOptions = {
         from: 'bananahammocksinfo@gmail.com',
         to: message.Recipient,
-        subject: 'Subject',
-        text: 'Text'
+        subject: 'Catering',
+        text: message.Catering_Desc
     };
       
     transporter.sendMail(mailOptions, function(error, info){
