@@ -3,6 +3,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 const EventHelper = require('../helpers/EventHelper');
 const amqp = require('amqp');
 const async = require('async');
+const UserHelper = require('../helpers/UserHelper');
 
 const connection = amqp.createConnection({
 	host : '127.0.0.1'
@@ -25,9 +26,37 @@ router.get("/:id/ratings", function(req, res, next) {
     });
     });
 
-router.post("/:id/ratings", function(req, res, next) {
-	let rate = new Rating();
-	rate.Score = req.body.Score;
+router.post("/:id/ratings", async function(req, res, next) {
+
+let lat = req.body.lat;
+let lon = req.body.lon
+let ip = req.body.ip;
+
+let user = {id: 1};
+
+try {
+let UserDTO = UserHelper.userConnectionDTO(user, lat, lon, ip); 
+let promise = await UserHelper.requestVPN(UserDTO);
+console.log(promise);
+if (!promise.data.valid){
+ return res.json({
+		status: 400,
+		data: promise.data
+	});
+}
+
+}catch (error) {
+	console.log(error);
+	console.log("CAUGHT AN ERROR");
+return res.json({
+      status: 400
+    });
+}
+
+
+
+let rate = new Rating();
+rate.Score = req.body.Score;
 	Event.findById(req.params.id, function (err, event) {
 	event.Ratings.push(rate);
 	event.save(function(err) {
@@ -130,13 +159,14 @@ router.post("/", function(req, res, next) {
   event.Date = Date.parse(req.body.Date);
   event.Location = req.body.Location;
 
+  if (req.body.Ratings) {
   let parsedRatings = req.body.Ratings.reduce((total, inc) => {
 		let rate = new Rating();
 		rate.Score = inc.Score;
     return total.concat(rate);
-	}, [])
-	
-	event.Ratings = parsedRatings;
+  }, [])
+  	event.Ratings = parsedRatings;
+}
 
 // Calls automated processes related to received Event object
 // connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
