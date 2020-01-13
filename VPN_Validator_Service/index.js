@@ -13,14 +13,14 @@ const option = {
   useUnifiedTopology: true
 };
 
-mongoose.connect("mongodb://127.0.0.1:27017/user-ip", option).then(
-  function() {
-    console.log("Connected to database");
-  },
-  function(err) {
-    console.log("Not connected to database " + err);
-  }
-);
+// mongoose.connect("mongodb://db2:27017/user-ip", option).then(
+//   function() {
+//     console.log("Connected to database");
+//   },
+//   function(err) {
+//     console.log("Not connected to database " + err);
+//   }
+// );
 
 app.use(bodyParser.json({ type: "application/json" }));
 app.use(cors());

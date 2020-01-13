@@ -12,7 +12,25 @@ services:
       - '27017-27019:27017-27019'
     # volumes:
     #   - ./Mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-
+  db2:
+    # build: ./Mongo
+    image: mongo:latest
+    restart: on-failure
+    # environment: 
+    #   - MONGO_INITDB_DATABASE=admin
+    #   - MONGO_INITDB_ROOT_USERNAME=admin-user
+    #   - MONGO_INITDB_ROOT_PASSWORD=admin-password
+    ports:
+      - '27020-27022:27017-27019'
+    # volumes:
+    #   - ./Mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    
+  vpnservice:
+    build: ./VPN_Validator_Service
+    ports: 
+      - "3002:3002"
+    depends_on:
+      - db2
   api: 
     build: ./Event_Engine
     ports: 

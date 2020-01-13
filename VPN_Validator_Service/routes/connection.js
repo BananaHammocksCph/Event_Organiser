@@ -8,28 +8,30 @@ const Connection = db.Mongoose.model("connection", db.ConnectionSchema, "connect
 
 const ipHelper = require("../services/ipHelper");
 router.post("/", function(req, res) {
-  let ip = req.body.ip;
-  let lat = req.body.lat;
-  let lon = req.body.lon;
-
+  console.log(req.body);
+  let userDTO = req.body.userDTO;
+  let ip = userDTO.ip;
+  let lat = userDTO.lat;
+  let lon = userDTO.lon;
   let connection = new Connection();
   connection.Ip = ip;
   connection.Date = req.body.date;
   connection.User_ID = req.body.id;
 
   // Saves a connection based on the HTTP REQUEST
-  connection.save(function (err) {
-    if (err) {
-      return res.send(err);
-    };
-  });
+  // connection.save(function (err) {
+  //   if (err) {
+  //     return res.send(err);
+  //   };
+  // });
   
   ipHelper.getLocationFromIp(ip, function(err, location) {
     // converts the string coordinates returned by ip translator into an object
     let locObj = ipHelper.convertLocationString(location.loc);
-    // compares returned IP coordaintes to coordaintes sent in HTTP REQUEST
+    // compares returned IP coordinates to coordaintes sent in HTTP REQUEST
     let distance = ipHelper.getDistanceFromLatLonInKm(locObj.lat, locObj.lon, lat, lon);
-    if (distance < 10)
+    console.log(distance);
+    if (distance < 15)
       return res.json({"valid": "true"});
 
   return res.json({"valid":"false"});
