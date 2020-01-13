@@ -139,10 +139,10 @@ router.post("/", function(req, res, next) {
 	event.Ratings = parsedRatings;
 
 // Calls automated processes related to received Event object
-// connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
-//   contentType: "application/json",
-//   contentEncoding: "utf-8"
-// });
+connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
+  contentType: "application/json",
+  contentEncoding: "utf-8"
+});
 
   let status = 200;
   event.save(function(err) {
