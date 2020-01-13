@@ -2,7 +2,6 @@ const amqp = require('amqp'), util = require('util');
 const mq_cnn = amqp.createConnection({
     host: 'rabbitmq'
 });
-const cron = require('node-cron');
 
 mq_cnn.on('ready', function () {
     console.log("Connected");
