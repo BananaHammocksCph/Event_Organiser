@@ -6,7 +6,7 @@ const async = require('async');
 const UserHelper = require('../helpers/UserHelper');
 
 var connection = amqp.createConnection({
-	host : '127.0.0.1'
+	host : 'rabbitmq'
 });
 
 let db = require("../db");
@@ -154,6 +154,7 @@ router.post("/", function(req, res, next) {
   event.Description = req.body.Description;
   event.Name = req.body.Name;
   event.Type = req.body.Type;
+  event.Email = req.body.email;
   event.Catering = req.body.Catering;
   event.Catering_Desc = req.body.Catering_Desc;
   event.Date = Date.parse(req.body.Date);
@@ -170,12 +171,12 @@ router.post("/", function(req, res, next) {
 }
 
 // Calls automated processes related to received Event object
-if (event.Catering){
-connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
-  contentType: "application/json",
-  contentEncoding: "utf-8"
-});
-}
+  if (event.Catering) {
+    connection.publish("mail_queue", EventHelper.EventEmailDTO(event), {
+      contentType: "application/json",
+      contentEncoding: "utf-8"
+    });
+  }
 
   let status = 200;
   event.save(function(err) {

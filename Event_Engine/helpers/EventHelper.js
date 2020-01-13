@@ -3,13 +3,9 @@ function EventEmailDTO(event) {
   return {
     Catering: event.Catering,
     Catering_Desc: event.Catering_Desc,
-    Recipient: getRecipientEmail(),
+    Recipient: event.Email,
     Date: event.Date
   };
-}
-
-const getRecipientEmail = (event) => {
-  return "seanaltoft@gmail.com"
 }
 
 exports.EventEmailDTO = EventEmailDTO;
