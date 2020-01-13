@@ -35,7 +35,9 @@ function handleRequest(message) {
         from: 'bananahammocksinfo@gmail.com',
         to: message.Recipient,
         subject: 'Catering',
-        text: message.Catering_Desc
+        text: 'Your event: ' + message.Name + ' on ' + message.Date + 'has just been created!\n' +
+        'Event Description: ' + message.Catering_Desc + '\n\n' +
+        'Enjoy!'
     };
       
     transporter.sendMail(mailOptions, function(error, info){
